@@ -65,7 +65,7 @@ export default function Navbar({ onOpenMobileSidebar, onToggleDesktopSidebar }: 
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem asChild>
-              <Link href="/account/dashboard" className="flex items-center gap-2">
+              <Link href="/admin/profile" className="flex items-center gap-2">
                 <User size={16} />
                 <span>Profile</span>
               </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Phone, Settings, Users, X } from "lucide-react";
+import { LayoutDashboard, Phone, Settings, UserCircle, Users, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -43,6 +43,7 @@ export default function Sidebar({
   const isAccountManagersActive = pathname.includes("/account-managers");
   const isCallLogsActive = pathname.includes("/call-logs");
   const isSettingsActive = pathname.includes("/settings");
+  const isProfileActive = pathname.includes("/profile");
 
   return (
     <div className="flex h-full flex-col bg-[var(--sidebar-bg)] text-white">
@@ -109,6 +110,18 @@ export default function Sidebar({
           >
             <Settings size={18} />
             {!collapsed ? <span>Settings</span> : null}
+          </Link>
+        )}
+
+        {isAdmin && (
+          <Link
+            href="/admin/profile"
+            className={navLinkClass(isProfileActive, collapsed)}
+            aria-label="Profile"
+            title="Profile"
+          >
+            <UserCircle size={18} />
+            {!collapsed ? <span>Profile</span> : null}
           </Link>
         )}
       </nav>

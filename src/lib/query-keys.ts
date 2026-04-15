@@ -20,4 +20,8 @@ export const queryKeys = {
     all: ["settings"] as const,
     admin: () => [...queryKeys.settings.all, "admin"] as const,
   },
+  profile: {
+    all: ["profile"] as const,
+    admin: () => [...queryKeys.profile.all, "admin"] as const,
+  },
 } as const;

@@ -107,12 +107,12 @@ export default function SignInPage() {
           <div className="flex flex-1 items-center justify-center px-6 py-12 sm:px-10">
             <div className="w-full max-w-sm">
               {/* Heading */}
-              <h2 className="text-3xl md:text-left text-center font-bold leading-tight text-[#1a1d23] sm:text-4xl">
+              <h2 className="md:text-left text-center font-bold leading-tight text-[#1a1d23] text-4xl">
                 Login to your
                 <br />
                 account.
               </h2>
-              <p className="mt-3 text-center text-sm text-[#9196a0]">
+              <p className="mt-3 text-center md:text-left text-sm text-[#9196a0]">
                 Hello, welcome back to your account
               </p>
 
@@ -188,7 +188,7 @@ export default function SignInPage() {
 
                 {/* Root error */}
                 {errors.root?.message && (
-                  <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-600">
+                  <p className="text-sm text-red-600">
                     {errors.root.message}
                   </p>
                 )}
