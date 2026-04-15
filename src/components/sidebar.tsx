@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Users, X } from "lucide-react";
+import { LayoutDashboard, Phone, User, Users, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -26,9 +26,12 @@ export default function Sidebar({
 
   const role = session?.user?.role;
   const isAdmin = role === "admin";
+  const isAccountManager = role === "account";
   const dashboardHref = getDashboardHref(role);
   const isDashboardActive = pathname.includes("/dashboard");
   const isAccountManagersActive = pathname.includes("/account-managers");
+  const isCallLogsActive = pathname.includes("/call-logs");
+  const isProfileActive = pathname.includes("/profile");
 
   return (
     <div className="flex h-full flex-col bg-[var(--sidebar-bg)] text-white">
@@ -88,6 +91,46 @@ export default function Sidebar({
             <Users size={18} />
             {!collapsed ? <span>Account Managers</span> : null}
           </Link>
+        )}
+
+        {isAccountManager && (
+          <>
+            <Link
+              href="/account/call-logs"
+              className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
+                isCallLogsActive
+                  ? "text-[#d7deee]"
+                  : "text-white hover:text-[#d7deee]"
+              } ${
+                collapsed
+                  ? "items-center justify-center px-0"
+                  : "items-center gap-3 px-4"
+              }`}
+              aria-label="Call Logs"
+              title="Call Logs"
+            >
+              <Phone size={18} />
+              {!collapsed ? <span>Call Logs</span> : null}
+            </Link>
+
+            <Link
+              href="/account/profile"
+              className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
+                isProfileActive
+                  ? "text-[#d7deee]"
+                  : "text-white hover:text-[#d7deee]"
+              } ${
+                collapsed
+                  ? "items-center justify-center px-0"
+                  : "items-center gap-3 px-4"
+              }`}
+              aria-label="Profile"
+              title="Profile"
+            >
+              <User size={18} />
+              {!collapsed ? <span>Profile</span> : null}
+            </Link>
+          </>
         )}
       </nav>
     </div>
