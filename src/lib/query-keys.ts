@@ -10,6 +10,11 @@ export const queryKeys = {
     accountManagers: (params: Record<string, unknown>) =>
       [...queryKeys.admin.all, "accountManagers", params] as const,
   },
+  account: {
+    all: ["account"] as const,
+    dashboard: () => [...queryKeys.account.all, "dashboard"] as const,
+    profile: () => [...queryKeys.account.all, "profile"] as const,
+  },
   callLogs: {
     all: ["callLogs"] as const,
     latest: (limit: number) => [...queryKeys.callLogs.all, "latest", limit] as const,
@@ -25,3 +30,4 @@ export const queryKeys = {
     admin: () => [...queryKeys.profile.all, "admin"] as const,
   },
 } as const;
+

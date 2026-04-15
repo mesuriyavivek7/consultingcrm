@@ -124,7 +124,32 @@ export default function Sidebar({
             {!collapsed ? <span>Profile</span> : null}
           </Link>
         )}
+
+        {!isAdmin && (
+          <Link
+            href="/account/call-logs"
+            className={navLinkClass(isCallLogsActive, collapsed)}
+            aria-label="Call Logs"
+            title="Call Logs"
+          >
+            <Phone size={18} />
+            {!collapsed ? <span>Call Logs</span> : null}
+          </Link>
+        )}
+
+        {!isAdmin && (
+          <Link
+            href="/account/profile"
+            className={navLinkClass(isProfileActive, collapsed)}
+            aria-label="Profile"
+            title="Profile"
+          >
+            <UserCircle size={18} />
+            {!collapsed ? <span>Profile</span> : null}
+          </Link>
+        )}
       </nav>
     </div>
   );
 }
+
