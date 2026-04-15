@@ -13,5 +13,11 @@ export const queryKeys = {
   callLogs: {
     all: ["callLogs"] as const,
     latest: (limit: number) => [...queryKeys.callLogs.all, "latest", limit] as const,
+    list: (params: Record<string, unknown>) =>
+      [...queryKeys.callLogs.all, "list", params] as const,
+  },
+  settings: {
+    all: ["settings"] as const,
+    admin: () => [...queryKeys.settings.all, "admin"] as const,
   },
 } as const;
