@@ -37,9 +37,8 @@ export default function Sidebar({
   const { data: session } = useSession();
 
   const role = session?.user?.role;
-  const isAdmin = role === "admin";
-  const isAccountManager = role === "account";
   const isAdmin = role?.toLowerCase() === "admin";
+  const isAccountManager = role === "account";
   const dashboardHref = getDashboardHref(role);
   const isDashboardActive = pathname.includes("/dashboard");
   const isAccountManagersActive = pathname.includes("/account-managers");
@@ -129,6 +128,8 @@ export default function Sidebar({
               {!collapsed ? <span>Profile</span> : null}
             </Link>
           </>
+        )}
+
         {isAdmin && (
           <Link
             href="/admin/call-logs"
