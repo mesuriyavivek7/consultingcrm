@@ -59,8 +59,8 @@ export default function SignInPage() {
   };
 
   return (
-    <main className="h-screen bg-[#f5f7fb] p-4 md:p-6">
-      <section className="mx-auto h-full grid w-full items-stretch gap-4 lg:grid-cols-2 lg:gap-8">
+    <main className="min-h-screen bg-white lg:bg-[#f5f7fb] lg:p-4 xl:p-6">
+      <section className="mx-auto min-h-screen grid w-full items-stretch gap-4 lg:min-h-0 lg:h-screen lg:grid-cols-2 lg:gap-8">
 
         <div
           className="relative hidden flex-col justify-between rounded-2xl p-8 text-white lg:flex"
@@ -89,36 +89,43 @@ export default function SignInPage() {
           </div>
         </div>
 
-        <div className="w-full rounded-2xl border bg-white">
-          <div className="p-4 sm:p-5">
+        {/* Form panel */}
+        <div className="flex w-full flex-col rounded-2xl bg-white lg:border">
+          {/* Logo */}
+          <div className="flex justify-center p-8 pb-0 lg:justify-start lg:p-6 lg:pb-0">
             <Image
               src="/assets/Logo.png"
               alt="Company logo"
-              width={120}
-              height={50}
+              width={140}
+              height={55}
               priority
-              className="h-auto w-[120px]"
+              className="h-auto w-[140px] lg:w-[120px]"
             />
-          </div>  
+          </div>
 
-          <div className="px-4 py-8 sm:px-8 mt-10 sm:py-10">
-            <div className="mx-auto w-full max-w-md">
-              <h2 className="text-2xl font-semibold text-[#2b2e35] sm:text-3xl">
-                Login
+          {/* Form content */}
+          <div className="flex flex-1 items-center justify-center px-6 py-12 sm:px-10">
+            <div className="w-full max-w-sm">
+              {/* Heading */}
+              <h2 className="md:text-left text-center font-bold leading-tight text-[#1a1d23] text-4xl">
+                Login to your
+                <br />
+                account.
               </h2>
-              <p className="mt-2 text-sm text-[#787f8f]">
-                Welcome back! Please enter your credentials.
+              <p className="mt-3 text-center md:text-left text-sm text-[#9196a0]">
+                Hello, welcome back to your account
               </p>
 
               <form
-                className="mt-8 space-y-5"
+                className="mt-10 space-y-5"
                 onSubmit={handleSubmit(onSubmit)}
                 noValidate
               >
-                <div>
+                {/* Email */}
+                <div className="space-y-1.5">
                   <label
                     htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-[#2b2e35]"
+                    className="block text-sm font-medium text-[#2b2e35]"
                   >
                     Email
                   </label>
@@ -126,20 +133,19 @@ export default function SignInPage() {
                     id="email"
                     type="email"
                     {...register("email")}
-                    placeholder="Enter your email"
-                    className="w-full rounded-lg border border-[#d7deea] px-4 py-3 text-sm text-[#2b2e35] outline-none transition focus:border-[#3d84f5]"
+                    placeholder="example@email.com"
+                    className="w-full rounded-xl border border-[#d7deea] px-4 py-3.5 text-sm text-[#2b2e35] outline-none transition focus:border-[#556ee6] focus:ring-2 focus:ring-[#556ee6]/20"
                   />
-                  {errors.email ? (
-                    <p className="mt-1 text-xs text-[#db3e3e]">
-                      {errors.email.message}
-                    </p>
-                  ) : null}
+                  {errors.email && (
+                    <p className="text-xs text-red-500">{errors.email.message}</p>
+                  )}
                 </div>
 
-                <div>
+                {/* Password */}
+                <div className="space-y-1.5">
                   <label
                     htmlFor="password"
-                    className="mb-2 block text-sm font-medium text-[#2b2e35]"
+                    className="block text-sm font-medium text-[#2b2e35]"
                   >
                     Password
                   </label>
@@ -148,17 +154,15 @@ export default function SignInPage() {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       {...register("password")}
-                      placeholder="Enter your password"
+                      placeholder="Your Password"
                       autoComplete="current-password"
-                      className="w-full rounded-lg border border-[#d7deea] py-3 pl-4 pr-12 text-sm text-[#2b2e35] outline-none transition focus:border-[#3d84f5]"
+                      className="w-full rounded-xl border border-[#d7deea] py-3.5 pl-4 pr-12 text-sm text-[#2b2e35] outline-none transition focus:border-[#556ee6] focus:ring-2 focus:ring-[#556ee6]/20"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 rounded p-1 text-[#787f8f] outline-none transition hover:bg-[#f0f3f9] hover:text-[#2b2e35] focus-visible:ring-2 focus-visible:ring-[#3d84f5]/40"
-                      aria-label={
-                        showPassword ? "Hide password" : "Show password"
-                      }
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9ca3af] transition hover:text-[#2b2e35]"
+                      aria-label={showPassword ? "Hide password" : "Show password"}
                     >
                       {showPassword ? (
                         <EyeOff className="size-5" strokeWidth={1.75} />
@@ -167,32 +171,35 @@ export default function SignInPage() {
                       )}
                     </button>
                   </div>
-                  {errors.password ? (
-                    <p className="mt-1 text-xs text-[#db3e3e]">
-                      {errors.password.message}
-                    </p>
-                  ) : null}
+                  {errors.password && (
+                    <p className="text-xs text-red-500">{errors.password.message}</p>
+                  )}
                 </div>
 
+                {/* Forgot password */}
                 <div className="flex justify-end">
                   <Link
                     href="/forgot-password"
-                    className="text-sm font-medium text-[#3d84f5] hover:underline"
+                    className="text-sm font-medium text-[#556ee6] hover:underline"
                   >
-                    Forgot password?
+                    Forgot Password?
                   </Link>
                 </div>
 
-                {errors.root?.message ? (
-                  <p className="text-sm text-red-600">{errors.root.message}</p>
-                ) : null}
+                {/* Root error */}
+                {errors.root?.message && (
+                  <p className="text-sm text-red-600">
+                    {errors.root.message}
+                  </p>
+                )}
 
+                {/* Submit */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full cursor-pointer rounded-lg bg-[#3d84f5] px-4 py-3 text-sm font-semibold text-white transition hover:bg-[#3579e1] disabled:cursor-not-allowed disabled:opacity-70"
+                  className="w-full rounded-xl bg-[#556ee6] px-4 py-3.5 text-sm font-semibold text-white transition hover:bg-[#4a5fd4] disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {isSubmitting ? "Logging in..." : "Login"}
+                  {isSubmitting ? "Logging in…" : "Login"}
                 </button>
               </form>
             </div>

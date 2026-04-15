@@ -1,54 +1,21 @@
-"use client";
-
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
-import { useState } from "react";
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
+import ProtectedShell from "@/components/protected-shell";
 
 type ProtectedLayoutProps = Readonly<{ children: React.ReactNode }>;
 
-export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const [isDesktopSidebarCollapsed, setIsDesktopSidebarCollapsed] =
-    useState(false);
+/**
+ * Server component — validates the session before rendering anything.
+ * Unauthenticated requests are redirected to /sign-in immediately,
+ * before any client JS is sent to the browser.
+ */
+export default async function ProtectedLayout({ children }: ProtectedLayoutProps) {
+  const session = await getServerSession(authOptions);
 
-  return (
-    <div className="min-h-screen bg-[#f5f7fb]">
-      <div
-        className={`fixed inset-y-0 left-0 z-30 hidden transition-all duration-200 lg:block ${
-          isDesktopSidebarCollapsed ? "w-16" : "w-60"
-        }`}
-      >
-        <Sidebar collapsed={isDesktopSidebarCollapsed} />
-      </div>
+  if (!session) {
+    redirect("/sign-in");
+  }
 
-      {isMobileSidebarOpen ? (
-        <div className="fixed inset-0 z-40 lg:hidden">
-          <button
-            type="button"
-            aria-label="Close sidebar backdrop"
-            className="absolute inset-0 bg-black/45"
-            onClick={() => setIsMobileSidebarOpen(false)}
-          />
-          <aside className="relative h-full w-60 shadow-xl">
-            <Sidebar mobile onClose={() => setIsMobileSidebarOpen(false)} />
-          </aside>
-        </div>
-      ) : null}
-
-      <div
-        className={`transition-all duration-200 ${
-          isDesktopSidebarCollapsed ? "lg:pl-16" : "lg:pl-60"
-        }`}
-      >
-        <Navbar
-          onOpenMobileSidebar={() => setIsMobileSidebarOpen(true)}
-          onToggleDesktopSidebar={() =>
-            setIsDesktopSidebarCollapsed((previousValue) => !previousValue)
-          }
-        />
-
-        <main className="min-h-[calc(100vh-4rem)]">{children}</main>
-      </div>
-    </div>
-  );
+  return <ProtectedShell>{children}</ProtectedShell>;
 }

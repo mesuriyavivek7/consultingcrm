@@ -45,26 +45,62 @@ type CallLogsResponse = {
   data: CallLogsPayload;
 };
 
-type FetchCallLogsParams = {
+export type CallType = "OUTGOING" | "INCOMING" | "MISSED";
+export type DateFilter = "today" | "all";
+
+export type FetchCallLogsParams = {
+  search?: string;
+  callType?: CallType | "";
+  dateFilter?: DateFilter | "";
+  page?: number;
   limit?: number;
 };
 
+export type CallLogsResult = {
+  logs: CallLog[];
+  pagination: Pagination;
+};
+
 /**
- * Fetch latest call logs.
- * Token is injected automatically by the axios interceptor in http.ts.
+ * Fetch latest call logs (dashboard widget — no filters, fixed limit).
  */
 export async function fetchLatestCallLogs({
   limit = 10,
-}: FetchCallLogsParams = {}): Promise<CallLog[]> {
+}: { limit?: number } = {}): Promise<CallLog[]> {
   const response = await http.get<CallLogsResponse>("/call-logs", {
     params: { limit },
+  });
+  if (!response.data?.success) {
+    throw new Error(response.data?.message ?? "Failed to fetch call logs.");
+  }
+  const logs = response.data.data?.data;
+  return Array.isArray(logs) ? logs : [];
+}
+
+/**
+ * Fetch call logs with full filter + pagination support (call logs page).
+ */
+export async function fetchCallLogs(
+  params: FetchCallLogsParams = {}
+): Promise<CallLogsResult> {
+  const { search, callType, dateFilter, page = 1, limit = 10 } = params;
+
+  const query: Record<string, string | number> = { page, limit };
+  if (search?.trim()) query.search = search.trim();
+  if (callType) query.callType = callType;
+  if (dateFilter) query.dateFilter = dateFilter;
+
+  const response = await http.get<CallLogsResponse>("/call-logs", {
+    params: query,
   });
 
   if (!response.data?.success) {
     throw new Error(response.data?.message ?? "Failed to fetch call logs.");
   }
 
-  // API wraps call logs in { data: [...], appliedFilters, pagination }
   const logs = response.data.data?.data;
-  return Array.isArray(logs) ? logs : [];
+  return {
+    logs: Array.isArray(logs) ? logs : [],
+    pagination: response.data.data?.pagination,
+  };
 }

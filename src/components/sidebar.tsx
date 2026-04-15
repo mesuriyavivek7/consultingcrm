@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboard, Phone, User, Users, X } from "lucide-react";
+import { LayoutDashboard, Phone, Settings, UserCircle, Users, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -12,8 +12,20 @@ type SidebarProps = {
 };
 
 function getDashboardHref(role: string | undefined): string {
-  if (role === "admin") return "/admin/dashboard";
+  if (role?.toLowerCase() === "admin") return "/admin/dashboard";
   return "/account/dashboard";
+}
+
+function navLinkClass(active: boolean, collapsed: boolean) {
+  return [
+    "flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none",
+    active
+      ? "text-white"
+      : "text-[#a7b1d1] hover:text-white",
+    collapsed
+      ? "items-center justify-center px-0"
+      : "items-center gap-3 px-4",
+  ].join(" ");
 }
 
 export default function Sidebar({
@@ -27,10 +39,12 @@ export default function Sidebar({
   const role = session?.user?.role;
   const isAdmin = role === "admin";
   const isAccountManager = role === "account";
+  const isAdmin = role?.toLowerCase() === "admin";
   const dashboardHref = getDashboardHref(role);
   const isDashboardActive = pathname.includes("/dashboard");
   const isAccountManagersActive = pathname.includes("/account-managers");
   const isCallLogsActive = pathname.includes("/call-logs");
+  const isSettingsActive = pathname.includes("/settings");
   const isProfileActive = pathname.includes("/profile");
 
   return (
@@ -57,15 +71,7 @@ export default function Sidebar({
       <nav className="flex flex-col gap-1 p-4">
         <Link
           href={dashboardHref}
-          className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
-            isDashboardActive
-              ? "text-[#d7deee]"
-              : "text-white hover:text-[#d7deee]"
-          } ${
-            collapsed
-              ? "items-center justify-center px-0"
-              : "items-center gap-3 px-4"
-          }`}
+          className={navLinkClass(isDashboardActive, collapsed)}
           aria-label="Dashboard"
           title="Dashboard"
         >
@@ -76,15 +82,7 @@ export default function Sidebar({
         {isAdmin && (
           <Link
             href="/admin/account-managers"
-            className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
-              isAccountManagersActive
-                ? "text-[#d7deee]"
-                : "text-white hover:text-[#d7deee]"
-            } ${
-              collapsed
-                ? "items-center justify-center px-0"
-                : "items-center gap-3 px-4"
-            }`}
+            className={navLinkClass(isAccountManagersActive, collapsed)}
             aria-label="Account Managers"
             title="Account Managers"
           >
@@ -131,6 +129,40 @@ export default function Sidebar({
               {!collapsed ? <span>Profile</span> : null}
             </Link>
           </>
+        {isAdmin && (
+          <Link
+            href="/admin/call-logs"
+            className={navLinkClass(isCallLogsActive, collapsed)}
+            aria-label="Call Logs"
+            title="Call Logs"
+          >
+            <Phone size={18} />
+            {!collapsed ? <span>Call Logs</span> : null}
+          </Link>
+        )}
+
+        {isAdmin && (
+          <Link
+            href="/admin/settings"
+            className={navLinkClass(isSettingsActive, collapsed)}
+            aria-label="Settings"
+            title="Settings"
+          >
+            <Settings size={18} />
+            {!collapsed ? <span>Settings</span> : null}
+          </Link>
+        )}
+
+        {isAdmin && (
+          <Link
+            href="/admin/profile"
+            className={navLinkClass(isProfileActive, collapsed)}
+            aria-label="Profile"
+            title="Profile"
+          >
+            <UserCircle size={18} />
+            {!collapsed ? <span>Profile</span> : null}
+          </Link>
         )}
       </nav>
     </div>
