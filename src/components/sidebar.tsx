@@ -37,6 +37,8 @@ export default function Sidebar({
   const { data: session } = useSession();
 
   const role = session?.user?.role;
+  const isAdmin = role === "admin";
+  const isAccountManager = role === "account";
   const isAdmin = role?.toLowerCase() === "admin";
   const dashboardHref = getDashboardHref(role);
   const isDashboardActive = pathname.includes("/dashboard");
@@ -89,6 +91,44 @@ export default function Sidebar({
           </Link>
         )}
 
+        {isAccountManager && (
+          <>
+            <Link
+              href="/account/call-logs"
+              className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
+                isCallLogsActive
+                  ? "text-[#d7deee]"
+                  : "text-white hover:text-[#d7deee]"
+              } ${
+                collapsed
+                  ? "items-center justify-center px-0"
+                  : "items-center gap-3 px-4"
+              }`}
+              aria-label="Call Logs"
+              title="Call Logs"
+            >
+              <Phone size={18} />
+              {!collapsed ? <span>Call Logs</span> : null}
+            </Link>
+
+            <Link
+              href="/account/profile"
+              className={`flex rounded-lg py-3 text-sm font-medium outline-none transition-all duration-200 focus-visible:outline-none ${
+                isProfileActive
+                  ? "text-[#d7deee]"
+                  : "text-white hover:text-[#d7deee]"
+              } ${
+                collapsed
+                  ? "items-center justify-center px-0"
+                  : "items-center gap-3 px-4"
+              }`}
+              aria-label="Profile"
+              title="Profile"
+            >
+              <User size={18} />
+              {!collapsed ? <span>Profile</span> : null}
+            </Link>
+          </>
         {isAdmin && (
           <Link
             href="/admin/call-logs"
