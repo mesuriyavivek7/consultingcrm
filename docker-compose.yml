@@ -10,11 +10,11 @@ services:
     container_name: consultingcrm-frontend
     restart: unless-stopped
     ports:
-      - "3008:3008"
+      - "3015:3015"
     environment:
       # Runtime env vars (secrets go here, not in the image)
       NODE_ENV: production
-      PORT: 3008
-      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3008}
+      PORT: 3015
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3015}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
       NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:5090/api/v1}
