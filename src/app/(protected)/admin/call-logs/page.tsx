@@ -14,15 +14,18 @@ function formatDuration(seconds: number): string {
   return s > 0 ? `${m}m ${s}s` : `${m}m`;
 }
 
-function formatUTCDateTime(iso: string): string {
+function formatISTDateTime(iso: string): string {
   const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const day = pad(d.getUTCDate());
-  const month = d.toLocaleString("en", { month: "short", timeZone: "UTC" });
-  const year = d.getUTCFullYear();
-  const hours = pad(d.getUTCHours());
-  const mins = pad(d.getUTCMinutes());
-  return `${day} ${month} ${year}, ${hours}:${mins}`;
+
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(d);
 }
 
 // ─── Call-type badge ──────────────────────────────────────────────────────────
@@ -135,11 +138,11 @@ function TableRows({ logs, startIndex }: { logs: CallLog[]; startIndex: number }
           <td className="px-5 py-3.5 text-sm text-[#4b5563]">{log.to}</td>
 
           <td className="px-5 py-3.5 text-sm text-[#4b5563]">
-            {formatUTCDateTime(log.callStart)}
+            {formatISTDateTime(log.callStart)}
           </td>
 
           <td className="px-5 py-3.5 text-sm text-[#4b5563]">
-            {log.callEnd ? formatUTCDateTime(log.callEnd) : "—"}
+            {log.callEnd ? formatISTDateTime(log.callEnd) : "—"}
           </td>
 
           <td className="px-5 py-3.5 text-sm text-[#4b5563]">
