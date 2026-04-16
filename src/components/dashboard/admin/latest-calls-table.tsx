@@ -4,27 +4,20 @@ import { useLatestCallLogs } from "@/hooks/use-latest-call-logs";
 import type { CallLog } from "@/services/call-log.service";
 import { Phone, PhoneIncoming, PhoneOutgoing } from "lucide-react";
 
-/* ─── Date formatting (UTC-stable, no hydration mismatch) ─── */
+/* ─── Date formatting (IST, AM/PM) ─── */
 
-const MONTHS = [
-  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-] as const;
-
-function pad(n: number): string {
-  return String(n).padStart(2, "0");
-}
+const IST_FORMATTER = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+});
 
 function formatTime(isoString: string): string {
-  const d = new Date(isoString);
-  const day   = pad(d.getUTCDate());
-  const month = MONTHS[d.getUTCMonth()];
-  const year  = d.getUTCFullYear();
-  const h24   = d.getUTCHours();
-  const min   = pad(d.getUTCMinutes());
-  const ampm  = h24 >= 12 ? "PM" : "AM";
-  const h12   = pad(h24 % 12 || 12);
-  return `${day} ${month} ${year}, ${h12}:${min} ${ampm}`;
+  return IST_FORMATTER.format(new Date(isoString));
 }
 
 function formatDuration(seconds: number): string {

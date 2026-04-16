@@ -14,15 +14,18 @@ function formatDuration(seconds: number): string {
   return s > 0 ? `${m}m ${s}s` : `${m}m`;
 }
 
+const IST_FORMATTER = new Intl.DateTimeFormat("en-IN", {
+  timeZone: "Asia/Kolkata",
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit",
+  hour12: true,
+});
+
 function formatUTCDateTime(iso: string): string {
-  const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  const day = pad(d.getUTCDate());
-  const month = d.toLocaleString("en", { month: "short", timeZone: "UTC" });
-  const year = d.getUTCFullYear();
-  const hours = pad(d.getUTCHours());
-  const mins = pad(d.getUTCMinutes());
-  return `${day} ${month} year, ${hours}:${mins}`;
+  return IST_FORMATTER.format(new Date(iso));
 }
 
 // ─── Call-type badge ──────────────────────────────────────────────────────────
