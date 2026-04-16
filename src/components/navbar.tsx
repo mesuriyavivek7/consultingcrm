@@ -21,6 +21,8 @@ export default function Navbar({ onOpenMobileSidebar, onToggleDesktopSidebar }: 
   const { data: session } = useSession();
   const firstName = session?.user?.firstName?.trim() || "User";
   const lastName = session?.user?.lastName?.trim() || "";
+  const isAdmin = session?.user?.role?.toUpperCase() === "ADMIN";
+  const profileHref = isAdmin ? "/admin/profile" : "/account/profile";
 
   const initials = useMemo(() => {
     const firstInitial = firstName.trim().charAt(0).toUpperCase();
@@ -65,7 +67,7 @@ export default function Navbar({ onOpenMobileSidebar, onToggleDesktopSidebar }: 
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-44">
             <DropdownMenuItem asChild>
-              <Link href="/admin/profile" className="flex items-center gap-2">
+              <Link href={profileHref} className="flex items-center gap-2">
                 <User size={16} />
                 <span>Profile</span>
               </Link>
