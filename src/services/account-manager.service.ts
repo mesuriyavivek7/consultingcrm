@@ -18,6 +18,8 @@ export type AccountManager = {
   status: AccountManagerStatus;
   role: string;
   createdBy: CreatedBy;
+  totalCallCount: number;
+  todaysCallCount: number;
 };
 
 export type AccountManagerPagination = {

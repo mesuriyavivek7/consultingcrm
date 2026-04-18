@@ -1,5 +1,5 @@
 import type { TodaysOverview } from "@/services/admin.service";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 
 function CircleProgress({ percent }: { percent: number }) {
   const r = 44;
@@ -47,6 +47,8 @@ export default function CallSummaryCard({ overview }: CallSummaryCardProps) {
     ? progressPercentage
     : progressPercentage * 100;
 
+  const isUp = changeFromYesterdayPercent >= 0;
+
   return (
     <div className="flex-1 rounded-xl bg-white p-4 shadow-sm md:p-5">
       <p className="font-semibold text-[#3a4050]">Today&apos;s Call Overview</p>
@@ -57,9 +59,13 @@ export default function CallSummaryCard({ overview }: CallSummaryCardProps) {
           <p className="text-3xl font-bold text-[#3a4050] md:text-4xl">
             {todaysTotalCalls}
           </p>
-          <p className="mt-2 flex flex-wrap items-center gap-1 text-sm font-medium text-emerald-500">
-            <ArrowUpRight size={14} />
-            {changeFromYesterdayPercent}%
+          <p
+            className={`mt-2 flex flex-wrap items-center gap-1 text-sm font-medium ${
+              isUp ? "text-emerald-500" : "text-red-500"
+            }`}
+          >
+            {isUp ? <ArrowUpRight size={14} /> : <ArrowDownRight size={14} />}
+            {Math.abs(changeFromYesterdayPercent)}%
             <span className="font-normal text-[#8a92a6]">from yesterday</span>
           </p>
         </div>

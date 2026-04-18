@@ -62,7 +62,7 @@ export default function Sidebar({
 
       <div className="border-b border-white/10 px-6 py-5">
         <p className="text-lg font-semibold tracking-wide">
-          {collapsed ? "CC" : "Consulting CRM"}
+          {collapsed ? "MC" : "Mahadev Consulting"}
         </p>
       </div>
 

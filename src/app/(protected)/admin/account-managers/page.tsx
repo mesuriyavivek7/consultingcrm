@@ -106,9 +106,7 @@ function TableRows({
 
             <td className="px-5 py-3.5 text-sm text-[#4b5563]">{am.email}</td>
 
-            <td className="px-5 py-3.5 text-sm text-[#4b5563]">
-              +91 {am.mobileNo}
-            </td>
+            <td className="px-5 py-3.5 text-sm text-[#4b5563]">+91 {am.mobileNo}</td>
 
             {/* Status toggle */}
             <td className="px-5 py-3.5">
@@ -133,8 +131,14 @@ function TableRows({
               </div>
             </td>
 
-            <td className="px-5 py-3.5 text-sm text-[#4b5563]">
-              {am.createdBy.fullName}
+            <td className="px-5 py-3.5 text-center text-sm font-medium text-[#3a4050]">
+              {am.totalCallCount}
+            </td>
+
+            <td className="px-5 py-3.5 text-center">
+              <span className="inline-flex items-center justify-center rounded-full bg-[#edf1ff] px-2.5 py-0.5 text-xs font-semibold text-[#556ee6]">
+                {am.todaysCallCount}
+              </span>
             </td>
 
             {/* Actions */}
@@ -355,14 +359,15 @@ export default function AccountManagersPage() {
         {/* Table */}
         {!isLoading && !isError && (
           <div className="flex-1 overflow-x-auto">
-            <table className="w-full min-w-[860px] text-sm">
+            <table className="w-full min-w-[900px] text-sm">
               <colgroup>
                 <col className="w-12" />
-                <col className="w-48" />
+                <col className="w-52" />
                 <col className="w-48" />
                 <col className="w-36" />
                 <col className="w-32" />
-                <col className="w-40" />
+                <col className="w-28" />
+                <col className="w-28" />
                 <col className="w-24" />
               </colgroup>
               <thead>
@@ -372,7 +377,8 @@ export default function AccountManagersPage() {
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Email</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Mobile</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Status</th>
-                  <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Created By</th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Total Calls</th>
+                  <th className="px-5 py-3 text-center text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Today&apos;s Calls</th>
                   <th className="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-[#6b7280]">Actions</th>
                 </tr>
               </thead>
